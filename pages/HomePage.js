@@ -4,7 +4,7 @@ class HomePage {
   }
 
   async navigateToHome() {
-    await this.page.goto('https://redmine.org/');
+    await this.page.goto('/');
   }
 
   async clickHomeLink() {

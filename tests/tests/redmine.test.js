@@ -10,22 +10,22 @@ test.describe('redmine tests', () => {
     await homePage.navigateToHome();
 
     await homePage.clickHomeLink();
-    await expect(page).toHaveURL('https://www.redmine.org/');
+    await expect(page).toHaveURL('/');
 
     await homePage.clickProjectsLink();
-    await expect(page).toHaveURL('https://www.redmine.org/projects');
+    await expect(page).toHaveURL('/projects');
 
     await homePage.clickHomeLink();
-    await expect(page).toHaveURL('https://www.redmine.org/');
+    await expect(page).toHaveURL('/');
 
     await homePage.clickHelpLink();
-    await expect(page).toHaveURL('https://www.redmine.org/guide');
+    await expect(page).toHaveURL('/guide');
 
     await homePage.clickHomeLink();
-    await expect(page).toHaveURL('https://www.redmine.org/');
+    await expect(page).toHaveURL('/');
 
     await homePage.clickLoginButton();
-    await expect(page).toHaveURL('https://www.redmine.org/login');
+    await expect(page).toHaveURL('/login');
 });
 
 test('Verify Redmine project is displayed on Projects page', async ({ page }) => {
@@ -35,7 +35,7 @@ test('Verify Redmine project is displayed on Projects page', async ({ page }) =>
   await homePage.navigateToHome();
   await homePage.clickProjectsLink();
 
-  await expect(page).toHaveURL('https://www.redmine.org/projects');
+  await expect(page).toHaveURL('/projects');
   await projectsPage.expectProjectsPageOpened();
   await projectsPage.expectRedmineProjectVisible();
 });
@@ -51,7 +51,7 @@ test('Verify Redmine project is displayed on Projects page', async ({ page }) =>
   await searchPage.searchFor(searchQuery);
 
   await expect(page).toHaveURL(/\/search/);
-  await expect(page.locator('#q')).toHaveValue(searchQuery);
+ await searchPage.expectSearchValue(searchQuery);
   await expect(searchPage.searchResults).toContainText(searchQuery);
 
   await searchPage.openFirstSearchResult();
@@ -66,14 +66,14 @@ test('Verify Sign in page elements and navigation back to Home page', async ({ p
   await homePage.navigateToHome();
 
   await homePage.clickLoginButton();
-  await expect(page).toHaveURL('https://www.redmine.org/login');
+  await expect(page).toHaveURL('/login');
   await loginPage.expectLoginPageOpened();
   await expect(loginPage.usernameInput).toBeVisible();
   await expect(loginPage.passwordInput).toBeVisible();
   await expect(loginPage.loginButton).toBeVisible();
 
   await page.goBack();
-  await expect(page).toHaveURL('https://www.redmine.org/');
+  await expect(page).toHaveURL('/');
 
 });
 
@@ -87,7 +87,7 @@ test('Verify invalid login validation and form state', async ({ page }) => {
   await loginPage.login(invalidUsername, invalidPassword);
 
   await expect(loginPage.errorMessage).toBeVisible();
-  await expect(page).toHaveURL('https://www.redmine.org/login');
+  await expect(page).toHaveURL('/login');
   await expect(loginPage.usernameInput).toHaveValue(invalidUsername);
   await expect(loginPage.passwordInput).toHaveValue('');
 });

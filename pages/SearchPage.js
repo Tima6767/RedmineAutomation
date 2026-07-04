@@ -1,9 +1,24 @@
+import { expect } from '@playwright/test';
+
 class SearchPage {
   constructor(page) {
     this.page = page;
-    this.searchInput = page.locator('#q');
-    this.searchResults = page.locator('#search-results');
-    this.firstSearchResult = this.searchResults.locator('a').first();
+  }
+
+  static SEARCH_INPUT = '#q';
+  static SEARCH_RESULTS = '#search-results';
+  static FIRST_SEARCH_RESULT = '#search-results a';
+
+  get searchInput() {
+    return this.page.locator(SearchPage.SEARCH_INPUT);
+  }
+
+  get searchResults() {
+    return this.page.locator(SearchPage.SEARCH_RESULTS);
+  }
+
+  get firstSearchResult() {
+    return this.page.locator(SearchPage.FIRST_SEARCH_RESULT).first();
   }
 
   async searchFor(searchQuery) {
@@ -13,6 +28,10 @@ class SearchPage {
 
   async openFirstSearchResult() {
     await this.firstSearchResult.click();
+  }
+
+  async expectSearchValue(value) {
+    await expect(this.searchInput).toHaveValue(value);
   }
 }
 
